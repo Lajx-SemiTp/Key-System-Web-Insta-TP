@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Keys System Insta TP</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- LOGIN -->
+  <div id="login-screen" class="screen active" style="min-height:100vh;align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(139,92,246,0.2) 0%,transparent 70%)">
+    <div style="background:rgba(10,14,26,0.95);border:1px solid rgba(139,92,246,0.3);border-radius:20px;padding:2.5rem;width:100%;max-width:380px;animation:fadeUp 0.4s ease">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.75rem">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#8b5cf6,#ec4899);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(139,92,246,0.4)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <span style="font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,#c4b5fd,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Keys System Insta TP</span>
+      </div>
+      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:0.4rem">Acceso al panel</h2>
+      <p style="color:#64748b;font-size:0.875rem;margin-bottom:1.5rem">Introduce la contraseña para continuar</p>
+      <div style="margin-bottom:1rem">
+        <label style="font-size:0.75rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.5rem">Contraseña</label>
+        <input type="password" id="login-password" placeholder="••••••••"
+          style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.75rem 1rem;color:#f1f5f9;font-family:inherit;font-size:0.9rem;outline:none"
+          onkeydown="if(event.key==='Enter')doLogin()" />
+      </div>
+      <button onclick="doLogin()" style="width:100%;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;border-radius:10px;padding:0.8rem;font-family:inherit;font-size:0.9rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(139,92,246,0.35)">
+        Entrar
+      </button>
+      <p id="login-error" style="color:#f43f5e;font-size:0.8rem;margin-top:0.75rem;display:none"></p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard-screen" class="screen">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+          </svg>
+        </div>
+        <span>Keys System Insta TP</span>
+      </div>
+      <nav>
+        <a class="nav-item active" onclick="showTab('keys')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a class="nav-item" onclick="showTab('create')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Crear Key
+        </a>
+        <a class="nav-item" onclick="showTab('hwid')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          HWID Manager
+        </a>
+        <a class="nav-item" onclick="showTab('api')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          API Docs
+        </a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div id="tab-keys" class="tab active">
+        <div class="page-header">
+          <div><h1>Keys de Licencia</h1><p class="subtitle">Gestiona todas las keys de Insta TP</p></div>
+          <div class="header-actions">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="search-input" placeholder="Buscar key..." oninput="filterKeys()" />
+            </div>
+            <button class="btn btn-primary" onclick="showTab('create')">+ Nueva Key</button>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card total-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+            <span class="stat-label">Total Keys</span>
+            <span class="stat-value" id="stat-total">0</span>
+          </div>
+          <div class="stat-card active-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <span class="stat-label">Activas</span>
+            <span class="stat-value" id="stat-active">0</span>
+          </div>
+          <div class="stat-card expired-card">
+            <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <span class="stat-label">Expiradas</span>
+            <span class="stat-value" id="stat-expired">0</span>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Key</th><th>User</th><th>Estado</th><th>Duración</th><th>Expira</th><th>HWID</th><th>Acciones</th></tr></thead>
+            <tbody id="keys-tbody"></tbody>
+          </table>
+          <div id="empty-state" class="empty-state hidden">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+            <p>No hay keys generadas aún</p>
+            <button class="btn btn-primary" onclick="showTab('create')">Crear primera key</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-create" class="tab">
+        <div class="page-header">
+          <div><h1>Crear Nueva Key</h1><p class="subtitle">Genera una key de Insta TP</p></div>
+        </div>
+        <div class="form-card">
+          <div class="form-grid">
+            <div class="form-group full-col">
+              <label>User</label>
+              <input type="text" id="create-owner" placeholder="user" />
+            </div>
+            <div class="form-group full-col">
+              <label>Duración</label>
+              <div class="duration-row">
+                <input type="number" id="create-duration" placeholder="0" min="0" />
+                <select id="create-unit">
+                  <option value="minutes">Minutos</option>
+                  <option value="hours">Horas</option>
+                  <option value="days" selected>Días</option>
+                  <option value="years">Años</option>
+                </select>
+              </div>
+              <div class="quick-days">
+                <button onclick="setDuration(30,'minutes')">30 min</button>
+                <button onclick="setDuration(1,'hours')">1 hora</button>
+                <button onclick="setDuration(12,'hours')">12 horas</button>
+                <button onclick="setDuration(1,'days')">1 día</button>
+                <button onclick="setDuration(7,'days')">7 días</button>
+                <button onclick="setDuration(30,'days')">30 días</button>
+                <button onclick="setDuration(1,'years')">1 año</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary btn-lg" onclick="createKey()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Generar Key
+            </button>
+          </div>
+          <div id="create-result" class="result-box hidden">
+            <div class="result-label">Key generada:</div>
+            <div class="result-key" id="result-key-text"></div>
+            <button class="btn btn-ghost" onclick="copyKey()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copiar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-hwid" class="tab">
+        <div class="page-header">
+          <div><h1>HWID Manager</h1><p class="subtitle">Gestiona los dispositivos vinculados</p></div>
+          <div class="header-actions">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="hwid-search" placeholder="Buscar key o user..." oninput="filterHwid()" />
+            </div>
+          </div>
+        </div>
+        <div id="hwid-cards" class="hwid-grid"></div>
+        <div id="hwid-empty" class="empty-state hidden">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <p>No hay keys aún</p>
+        </div>
+      </div>
+
+      <div id="tab-api" class="tab">
+        <div class="page-header">
+          <div><h1>API Docs</h1><p class="subtitle">Endpoints para Roblox</p></div>
+        </div>
+        <div id="api-docs-content"></div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal">
+      <h3 id="modal-title">Confirmar</h3>
+      <p id="modal-body"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-danger" id="modal-confirm-btn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
